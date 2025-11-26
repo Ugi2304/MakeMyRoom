@@ -10,12 +10,21 @@ const getAIClient = () => {
 
 // Helper to parse base64 data and mime type from Data URL
 const processBase64 = (dataUrl: string) => {
-  const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
-  if (match) {
-    return { mimeType: match[1], data: match[2] };
+  // If it contains a comma, it likely has a data URI scheme prefix
+  const commaIndex = dataUrl.indexOf(',');
+  if (commaIndex !== -1) {
+    const header = dataUrl.substring(0, commaIndex);
+    const data = dataUrl.substring(commaIndex + 1);
+    
+    // Extract mime type from header like "data:image/jpeg;base64"
+    const mimeMatch = header.match(/data:(.*?);/);
+    const mimeType = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    
+    return { mimeType, data };
   }
-  // Fallback or assume jpeg if no header found
-  return { mimeType: "image/jpeg", data: dataUrl }; 
+  
+  // No comma found, assume it's raw base64 data without prefix
+  return { mimeType: "image/jpeg", data: dataUrl };
 };
 
 // --- Image Generation / Editing (Nano Banana / Gemini 2.5 Flash Image) ---
@@ -93,7 +102,8 @@ const extractImageFromResponse = (response: GenerateContentResponse): string => 
   if (response.candidates && response.candidates[0].content.parts) {
     for (const part of response.candidates[0].content.parts) {
       if (part.inlineData && part.inlineData.data) {
-        return `data:image/jpeg;base64,${part.inlineData.data}`;
+        const mimeType = part.inlineData.mimeType || 'image/jpeg';
+        return `data:${mimeType};base64,${part.inlineData.data}`;
       }
     }
   }
