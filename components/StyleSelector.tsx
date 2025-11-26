@@ -18,7 +18,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({ onSelect, selectedStyleId
             disabled={disabled}
             className={`
               relative group flex flex-col items-center gap-2 p-2 rounded-xl transition-all duration-300
-              ${selectedStyleId === style.id ? 'bg-indigo-600/20 ring-2 ring-indigo-500' : 'hover:bg-slate-800'}
+              ${selectedStyleId === style.id ? 'bg-indigo-100 dark:bg-indigo-600/20 ring-2 ring-indigo-500' : 'hover:bg-slate-200 dark:hover:bg-slate-800'}
               ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
           >
@@ -30,7 +30,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({ onSelect, selectedStyleId
               />
               <div className={`absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors ${selectedStyleId === style.id ? 'bg-transparent' : ''}`} />
             </div>
-            <span className={`text-sm font-medium ${selectedStyleId === style.id ? 'text-indigo-400' : 'text-slate-400 group-hover:text-slate-200'}`}>
+            <span className={`text-sm font-medium transition-colors ${selectedStyleId === style.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200'}`}>
               {style.name}
             </span>
           </button>

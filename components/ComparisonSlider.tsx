@@ -49,7 +49,7 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[300px] md:h-[500px] rounded-xl overflow-hidden cursor-col-resize select-none shadow-2xl border border-slate-700 bg-slate-900"
+      className="relative w-full h-[300px] md:h-[500px] rounded-xl overflow-hidden cursor-col-resize select-none shadow-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 transition-colors"
     >
       {/* Background Image (After/Generated) */}
       <img
